@@ -1,6 +1,6 @@
+import Pages.Cart;
 import Pages.FillForm;
 import Pages.Products;
-import Utils.Actions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -18,21 +18,18 @@ public class eCommerce_test_1 extends BaseTest {
     @Test
     public void addProductToCartTest() {
         FillForm formPage = new FillForm(androidDriver);
-        Products productsPage = new Products(androidDriver);
-
         formPage.enterName("Eman Mostafa");
         formPage.selectCountry("Albania");
         formPage.selectGender("Female");
-        formPage.clickLetsShop();
+        Products productsPage =  formPage.clickLetsShop();
 
         productsPage.addFirstProductToCart();
         productsPage.addSecondProductToCart();
-        productsPage.openCart();
+        Cart cart = productsPage.openCart();
 
-        double totalPrice = productsPage.getTotalPrice();
+        double actualResult = cart.getDisplayedTotalAmount();
+        double totalPrice = cart.getTotalPrice();
         System.out.println("Total price of products in the cart: " + totalPrice);
-
-        double actualResult = productsPage.getDisplayedTotalAmount();
         Assert.assertEquals(actualResult, totalPrice, "The calculated total does not match the displayed total");
     }
 }
