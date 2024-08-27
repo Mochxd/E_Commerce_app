@@ -13,6 +13,7 @@ public class FillForm extends Actions {
     private By femaleRadioButton = AppiumBy.id("com.androidsample.generalstore:id/radioFemale");
     private By maleRadioButton = AppiumBy.id("com.androidsample.generalstore:id/radioMale");
     private By letsShopButton = AppiumBy.id("com.androidsample.generalstore:id/btnLetsShop");
+    private By toastMessage = AppiumBy.xpath("//android.widget.Toast");
 
     public FillForm(AndroidDriver driver) {
         super(driver);
@@ -37,6 +38,9 @@ public class FillForm extends Actions {
         } else {
             androidDriver.findElement(maleRadioButton).click();
         }
+    }
+    public String getToastMessage() {
+        return androidDriver.findElement(toastMessage).getAttribute("name");
     }
 
     public Products clickLetsShop() {
