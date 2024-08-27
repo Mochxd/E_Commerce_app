@@ -1,11 +1,7 @@
-import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.options.UiAutomator2Options;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.remote.RemoteWebElement;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 
@@ -17,6 +13,12 @@ import java.time.Duration;
 public class BaseTest {
     protected AndroidDriver androidDriver;
     protected AppiumDriverLocalService service;
+//    @BeforeMethod
+//    public void preSetup(){
+//        Activity activity = new Activity("io.appium.android.apis","io.appium.android.apis.preference.PreferenceDependencies");
+//        ((JavascriptExecutor) androidDriver).executeScript("mobile: startActivity",
+//                ImmutableMap.of("intent","io.appium.android.apis/io.appium.android.apis.preference.PreferenceDependencies"));
+//    }
     @BeforeMethod
     public void configureAppium() throws MalformedURLException {
         service = new AppiumServiceBuilder()
