@@ -2,6 +2,7 @@ import Pages.Cart;
 import Pages.FillForm;
 import Pages.Products;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 public class eCommerce_test_1 extends BaseTest {
@@ -12,6 +13,14 @@ public class eCommerce_test_1 extends BaseTest {
         formPage.enterName("Eman Mostafa");
         formPage.selectCountry("Egypt");
         formPage.selectGender("female");
+        formPage.clickLetsShop();
+    }
+    @Test(priority = 1, dataProvider = "data")
+    public void fillFormWithDataProvider(String name, String gender, String country) {
+        FillForm formPage = new FillForm(androidDriver);
+        formPage.enterName(name);
+        formPage.selectCountry(country);
+        formPage.selectGender(gender);
         formPage.clickLetsShop();
     }
     @Test(priority = 2)
@@ -49,5 +58,13 @@ public class eCommerce_test_1 extends BaseTest {
             cart.switchToWebView("WEBVIEW_com.androidsample.generalstore");
             cart.searchInWebView("cat");
             cart.switchBackToNative();
+        }
+        @DataProvider
+        public Object [][] data(){
+            Object [][] data = new Object [1][3];
+            data [0][0] = "Mohamed Mostafa";
+            data [0][1] = "male";
+            data [0][2] = "Albania";
+            return data;
         }
 }
