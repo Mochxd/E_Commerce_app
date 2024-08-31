@@ -5,6 +5,10 @@ import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+
 public class eCommerce_test_1 extends BaseTest {
 
     @Test(priority = 1)
@@ -15,7 +19,7 @@ public class eCommerce_test_1 extends BaseTest {
         formPage.selectGender("female");
         formPage.clickLetsShop();
     }
-    @Test(priority = 1, dataProvider = "data")
+    @Test(priority = 1, dataProvider = "data2")
     public void fillFormWithDataProvider(String name, String gender, String country) {
         FillForm formPage = new FillForm(androidDriver);
         formPage.enterName(name);
@@ -60,11 +64,26 @@ public class eCommerce_test_1 extends BaseTest {
             cart.switchBackToNative();
         }
         @DataProvider
-        public Object [][] data(){
+        public Object [][] data() throws IOException {
+            List<HashMap<String, String>> jsonData = getJsonData("D:\\Appium\\E_Commerce_app\\src\\main\\resources\\data.json");
             Object [][] data = new Object [1][3];
             data [0][0] = "Mohamed Mostafa";
             data [0][1] = "male";
             data [0][2] = "Albania";
             return data;
         }
+
+    @DataProvider
+    public Object[][] data2() throws IOException {
+        List<HashMap<String, String>> jsonData = getJsonData("D:\\Appium\\E_Commerce_app\\src\\main\\resources\\data.json");
+        Object[][] data = new Object[jsonData.size()][3];
+
+        for (int i = 0; i < jsonData.size(); i++) {
+            data[i][0] = jsonData.get(i).get("name");
+            data[i][1] = jsonData.get(i).get("gender");
+            data[i][2] = jsonData.get(i).get("country");
+        }
+
+        return data;
+    }
 }
