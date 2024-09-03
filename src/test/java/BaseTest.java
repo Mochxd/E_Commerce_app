@@ -1,3 +1,5 @@
+import com.aventstack.extentreports.ExtentReports;
+import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.appium.java_client.android.AndroidDriver;
@@ -21,6 +23,7 @@ import java.util.Properties;
 
 public class BaseTest {
     protected AndroidDriver androidDriver;
+    static ExtentReports extent;
     protected AppiumDriverLocalService service;
 //    @BeforeMethod
 //    public void preSetup(){
@@ -67,6 +70,18 @@ public class BaseTest {
                 .build();
         service.start();
         return service;
+    }
+    public static ExtentReports getReport(){
+        String path = "D:\\Appium\\E_Commerce_app\\src\\test\\reports\\index.html";
+        ExtentSparkReporter reporter = new ExtentSparkReporter(path);
+        reporter.config().setReportName("Mobile Automation Results");
+        reporter.config().setDocumentTitle("Test Results");
+
+        extent = new ExtentReports();
+        extent.attachReporter(reporter);
+        extent.setSystemInfo("Tester", "Mohamed Mostafa");
+        return extent;
+
     }
 
     @AfterMethod
