@@ -9,6 +9,7 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.net.MalformedURLException;
@@ -16,6 +17,7 @@ import java.net.URL;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Properties;
 
 public class BaseTest {
     protected AndroidDriver androidDriver;
@@ -27,16 +29,19 @@ public class BaseTest {
 //                ImmutableMap.of("intent","io.appium.android.apis/io.appium.android.apis.preference.PreferenceDependencies"));
 //    }
     @BeforeMethod
-    public void configureAppium() throws MalformedURLException {
-        service = new AppiumServiceBuilder()
-                .withAppiumJS(new File("C:\\Users\\zas\\AppData\\Roaming\\npm\\node_modules\\appium\\build\\lib\\main.js"))
-                .withIPAddress("127.0.0.1")
-                .usingPort(4723)
-                .build();
-        service.start();
+    public void configureAppium() throws IOException {
+        Properties properties = new Properties();
+        FileInputStream fis = new FileInputStream("src/main/resources/properties.properties");
+        properties.load(fis);
+
+        String ipAddress = properties.getProperty("ipAddress");
+        String port = properties.getProperty("port");
+        String deviceName = properties.getProperty("AndroidDeviceName");
+
+        service = startAppiumServer(ipAddress, Integer.parseInt(port));
 
         UiAutomator2Options options = new UiAutomator2Options();
-        options.setDeviceName("Mostafa");
+        options.setDeviceName(deviceName);
         options.setApp("D:\\Appium\\E_Commerce_app\\src\\main\\resources\\General-Store.apk");
         options.setChromedriverExecutable("D:\\Appium\\E_Commerce_app\\src\\main\\resources\\chromedriver.exe");
         androidDriver = new AndroidDriver(new URL("http://127.0.0.1:4723/"),options);
@@ -53,6 +58,15 @@ public class BaseTest {
         List<HashMap<String, String>> data = mapper.readValue(jsonContent,
                 new TypeReference<List<HashMap<String, String>>>() {});
         return data;
+    }
+    public AppiumDriverLocalService startAppiumServer(String ipAddress, int Port) throws MalformedURLException {
+        service = new AppiumServiceBuilder()
+                .withAppiumJS(new File("C:\\Users\\zas\\AppData\\Roaming\\npm\\node_modules\\appium\\build\\lib\\main.js"))
+                .withIPAddress(ipAddress)
+                .usingPort(Port)
+                .build();
+        service.start();
+        return service;
     }
 
     @AfterMethod
