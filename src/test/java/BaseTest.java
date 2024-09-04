@@ -13,7 +13,6 @@ import org.testng.annotations.BeforeMethod;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.Duration;
@@ -45,8 +44,8 @@ public class BaseTest {
 
         UiAutomator2Options options = new UiAutomator2Options();
         options.setDeviceName(deviceName);
-        options.setApp("D:\\Appium\\E_Commerce_app\\src\\main\\resources\\General-Store.apk");
-        options.setChromedriverExecutable("D:\\Appium\\E_Commerce_app\\src\\main\\resources\\chromedriver.exe");
+        options.setApp("C:\\Users\\AbdElMaksoudM1\\Desktop\\E_Commerce_app\\src\\main\\resources\\General-Store.apk");
+        options.setChromedriverExecutable("C:\\Users\\AbdElMaksoudM1\\Desktop\\E_Commerce_app\\src\\main\\resources\\chromedriver.exe");
         androidDriver = new AndroidDriver(new URL("http://127.0.0.1:4723/"),options);
         androidDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
     }
@@ -64,7 +63,7 @@ public class BaseTest {
     }
     public AppiumDriverLocalService startAppiumServer(String ipAddress, int Port) throws MalformedURLException {
         service = new AppiumServiceBuilder()
-                .withAppiumJS(new File("C:\\Users\\zas\\AppData\\Roaming\\npm\\node_modules\\appium\\build\\lib\\main.js"))
+                .withAppiumJS(new File("C:\\Users\\AbdElMaksoudM1\\AppData\\Roaming\\npm\\node_modules\\appium\\lib\\main.js"))
                 .withIPAddress(ipAddress)
                 .usingPort(Port)
                 .build();
@@ -72,7 +71,7 @@ public class BaseTest {
         return service;
     }
     public static ExtentReports getReport(){
-        String path = "D:\\Appium\\E_Commerce_app\\src\\test\\reports\\index.html";
+        String path = "C:\\Users\\AbdElMaksoudM1\\Desktop\\E_Commerce_app\\src\\test\\reports\\index.html";
         ExtentSparkReporter reporter = new ExtentSparkReporter(path);
         reporter.config().setReportName("Mobile Automation Results");
         reporter.config().setDocumentTitle("Test Results");

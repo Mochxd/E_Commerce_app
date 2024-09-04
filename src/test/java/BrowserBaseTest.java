@@ -15,7 +15,7 @@ public class BrowserBaseTest {
     @BeforeMethod
     public void configureAppium() throws MalformedURLException {
         service = new AppiumServiceBuilder()
-                .withAppiumJS(new File("C:\\Users\\zas\\AppData\\Roaming\\npm\\node_modules\\appium\\build\\lib\\main.js"))
+                .withAppiumJS(new File("C:\\Users\\AbdElMaksoudM1\\AppData\\Roaming\\npm\\node_modules\\appium\\lib\\main.js"))
                 .withIPAddress("127.0.0.1")
                 .usingPort(4723)
                 .build();
@@ -23,7 +23,7 @@ public class BrowserBaseTest {
 
         UiAutomator2Options options = new UiAutomator2Options();
         options.setDeviceName("Mostafa");
-        options.setChromedriverExecutable("D:\\Appium\\Raul\\src\\main\\resources\\chromedriver.exe");
+        options.setChromedriverExecutable("C:\\Users\\AbdElMaksoudM1\\Desktop\\E_Commerce_app\\src\\main\\resources\\chromedriver.exe");
         options.setCapability("browserName","Chrome");
         androidDriver = new AndroidDriver(new URL("http://127.0.0.1:4723/"),options);
         androidDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
