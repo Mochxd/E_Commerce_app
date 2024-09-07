@@ -1,13 +1,17 @@
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
+import io.appium.java_client.AppiumDriver;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
 
-public class Listeners implements ITestListener {
+import java.io.IOException;
+
+public class Listeners extends BaseTest implements ITestListener {
     ExtentTest test;
     ExtentReports extend = BaseTest.getReport();
+    AppiumDriver driver;
     @Override
     public void onTestStart(ITestResult result) {
        test = extend.createTest(result.getMethod().getMethodName());
@@ -20,8 +24,24 @@ public class Listeners implements ITestListener {
 
     @Override
     public void onTestFailure(ITestResult result) {
+        // Log the failure
         test.fail(result.getThrowable());
+
+        try {
+            // Access the correct field from BaseTest
+            driver = (AppiumDriver) result.getTestClass().getRealClass().getField("androidDriver").get(result.getInstance());
+        } catch (Exception e1) {
+            e1.printStackTrace();
+        }
+
+        try {
+            // Capture screenshot and add it to the report
+            test.addScreenCaptureFromPath(getScreenshotPath(result.getMethod().getMethodName(), driver), result.getMethod().getMethodName());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
+
 
     @Override
     public void onTestSkipped(ITestResult result) {
