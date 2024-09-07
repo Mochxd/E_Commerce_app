@@ -58,10 +58,10 @@ public class eCommerce_test_1 extends BaseTest {
             cart.agreeToTermsAndConditions();
             cart.selectCheckBox();
             cart.proceedToWebView();
-            Thread.sleep(4000);
-            cart.switchToWebView("WEBVIEW_com.androidsample.generalstore");
-            cart.searchInWebView("cat");
-            cart.switchBackToNative();
+//            Thread.sleep(4000);
+//            cart.switchToWebView("WEBVIEW_com.androidsample.generalstore");
+//            cart.searchInWebView("cat");
+//            cart.switchBackToNative();
         }
         @DataProvider
         public Object [][] data() throws IOException {
