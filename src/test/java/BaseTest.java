@@ -2,11 +2,13 @@ import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.options.UiAutomator2Options;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
 import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.OutputType;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 
@@ -22,7 +24,7 @@ import java.util.List;
 import java.util.Properties;
 
 public class BaseTest {
-    protected AndroidDriver androidDriver;
+    public AndroidDriver androidDriver;
     static ExtentReports extent;
     protected AppiumDriverLocalService service;
 //    @BeforeMethod
@@ -35,9 +37,9 @@ public class BaseTest {
     public void configureAppium() throws IOException {
         Properties properties = new Properties();
         FileInputStream fis = new FileInputStream("src/main/resources/properties.properties");
+        String ipAddress = System.getProperty("ipAddress") != null ? System.getProperty("ipAddress") : properties.getProperty("ipAddress");
         properties.load(fis);
-
-        String ipAddress = properties.getProperty("ipAddress");
+//        String ipAddress = properties.getProperty("ipAddress");
         String port = properties.getProperty("port");
         String deviceName = properties.getProperty("AndroidDeviceName");
 
@@ -82,6 +84,13 @@ public class BaseTest {
         extent.setSystemInfo("Tester", "Mohamed Mostafa");
         return extent;
 
+    }
+    public String getScreenshotPath(String testCaseName, AppiumDriver driver) throws IOException
+    {
+        File source = driver.getScreenshotAs(OutputType.FILE);
+        String destinationFile = "D:\\Appium\\E_Commerce_app\\src\\test\\reports\\ScreenShots\\"+testCaseName+".png";
+        FileUtils.copyFile(source, new File(destinationFile));
+        return destinationFile;
     }
 
     @AfterMethod
